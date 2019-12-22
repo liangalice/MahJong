@@ -67,7 +67,8 @@ def makePlayer(player):
 	
 	player["Win"] = "False"
 	player["Fong"] = ""
-	#player["Position"] = ""
+	player["HasDice"] = "False"
+	player["PrevWin"] = "False"
 
 
 def changeFong(counter):
@@ -96,19 +97,35 @@ def startGame(player1,player2,player3,player4):
 
 def changePosition(player,symTable):
 	listFong = ["dong","nam","xi","bei"]
+	listWithDiceFong = ["dong","bei","xi","nam"]
 	currPosition = ""
+	s = " "
 
-	#print(currFong,"currFon")
-	if (player["Position"] == "bei"):
-		player["Position"] = listFong[0:1]
-		currFong = symTable["currFong"]+1
-		
-		symTable["currFong"] = currFong
-		return currFong
-	elif (player["Position"] in listFong):
-		
-		currPosition = listFong.index((player["Position"]))
-		player["Position"] = listFong[currPosition+1:currPosition+2]
+	# should check if won previous
+		# if won previous and have dice
+			# position doesnt change currFong : DONG
+		# if didn't win previous and have dice
+			# position becomes currFong : DONG
+		# if didn't have dice before and dont have dice now
+			# move next in listFong
+		# if didn't have dice
+	if(player["HasDice"] == "True"):
+		player["Position"] = "dong"
+
+	if(player["PrevWin"] == "True" and player["HasDice"] == "False"):
+		player["Position"] = "dong"
+	elif (player["HasDice"] == "False"):
+			if(player["Win"] == "False"):
+				currPosition = listFong.index(player["Position"])
+				player["Position"] = (s).join(listFong[currPosition+1 : currPosition+2])
+			else:
+				currPosition = listWithDiceFong.index((player["Position"]))
+				#print("h")
+				print((s).join(listWithDiceFong[currPosition+1 : currPosition+2]))
+				player["Position"] = (s).join(listWithDiceFong[currPosition+1 : currPosition+2])
+				
+
+
 
 def main():
 
@@ -153,8 +170,8 @@ def main():
     sortedDeck2 = sortCards(deck2,sortedDeck2)
     sortedDeck3 = sortCards(deck3,sortedDeck3)
     sortedDeck4 = sortCards(deck4,sortedDeck4)
-    makePlayer(player1)
-    makePlayer(player2)
+    makePlayer(player1) # dong dong
+    makePlayer(player2) # dong nam
     makePlayer(player3)
     makePlayer(player4)
     fong = ""
@@ -166,15 +183,22 @@ def main():
   
 
     startGame(player1,player2,player3,player4)
-    
-    # something to be called later o 
+    print(player1)
+    player1["Win"] = "True"
+    player1["HasDice"] = "True"
+    player1["PrevWin"] = "True"
     changePosition(player1,symTable)
-    changePosition(player2,symTable)
-    changePosition(player3,symTable)
-    changePosition(player4,symTable)
-    
-    
-    print(symTable["currFong"])
+    print(player1)
+    player1["Win"] = "False"
+    player1["HasDice"] = "True"
+    player["PrevWin"] = "True"
+    changePosition(player1,symTable)
+    print(player1)
+    player1["Win"] = "False"
+    player1["HasDice"] = "False"
+    player1["PrevWin"] = "False"
+    changePosition(player1,symTable)
+    print(player1)
 
 if __name__ == "__main__":
     main()        
