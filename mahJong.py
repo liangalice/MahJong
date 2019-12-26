@@ -16,7 +16,8 @@ def assignCards(wholeList,makeDeckFor1):
 			use = wholeList.get(val)
 			if( use is None):
 				while(use is None):
-					val = (randint(1,33))
+					#val = (randint(1,33))
+					val = (randint(0,135))
 					use = wholeList.get(val)
 		
 			makeDeckFor1[counter] = wholeList[val]
@@ -126,7 +127,23 @@ def changePosition(player,symTable):
 			a = listFong.index(player["Position"])
 			player["Position"] = s.join(listFong[a+1:a+2])
 		
-		
+def addCard(deck,symTable):
+	#print(deck)
+	val = randint(0,135)
+	
+	if (symTable.get(val) is None):
+		while (symTable.get(val) is None):
+			val = randint(0,135)
+	deck.append(symTable[val])
+	return deck
+
+def removeCard(deck,symTable):
+	print(deck)
+	a = input()
+	deck.remove(a)
+	print(deck)
+	
+	#print(symTable)
 def genWin(deck):
 	listS = list()
 	listT = list()
@@ -205,8 +222,10 @@ def genWin(deck):
 			eyes = eyes+1
 
 	
-	if(pong == 4 && eyes ==2): ## curr have 13 need 14
-		print("WIN by pairs")
+	if(pong == 4 and eyes ==2): ## curr have 13 need 14
+		return True
+
+	return False
 
 
 
@@ -265,10 +284,16 @@ def main():
     # change counter later
     currFong = 1
  
-    startGame(player1,player2,player3,player4)
-    changePosition(player2,symTable)
-    genWin(sortedDeck1)
+    #startGame(player1,player2,player3,player4)
+    #changePosition(player2,symTable)
+    print(sortedDeck1)
+    addCard(sortedDeck1,symTable)
+    print(sortedDeck1)
+    removeCard(sortedDeck1,symTable)
+
     
+    
+   # print(addedCardToDeck1)
 
 if __name__ == "__main__":
     main()        
