@@ -95,35 +95,119 @@ def startGame(player1,player2,player3,player4):
 	player3["Position"] = "xi"
 	player4["Position"] = "bei"
 
+	player1["PrevDice"] = "False"
+	player2["PrevDice"] = "False"
+	player3["PrevDice"] = "False"
+	player4["PrevDice"] = "False"
+
+	player1["Starter"] = "True"
+	player2["Starter"] = "False"
+	player3["Starter"] = "False"
+	player4["Starter"] = "False"
+
 def changePosition(player,symTable):
 	listFong = ["dong","nam","xi","bei"]
 	listWithDiceFong = ["dong","bei","xi","nam"]
 	currPosition = ""
 	s = " "
 
-	# should check if won previous
-		# if won previous and have dice
-			# position doesnt change currFong : DONG
-		# if didn't win previous and have dice
-			# position becomes currFong : DONG
-		# if didn't have dice before and dont have dice now
-			# move next in listFong
-		# if didn't have dice
-	if(player["HasDice"] == "True"):
-		player["Position"] = "dong"
+	# is starter  then go in diff list
+	if(player["Starter"] == "True" ):
+		if(player["Win"] == "False"):
+			a = listWithDiceFong.index(player["Position"])
+			player["Position"] = s.join(listWithDiceFong[a+1:a+2])
+	else:
+	# if they didnt start
+	# if they won then dont change
+	# if they didnn't win ,
+		if(player["HasDice"]):
+			player["Position"] = "dong"
+		else:
+			a = listFong.index(player["Position"])
+			player["Position"] = s.join(listFong[a+1:a+2])
+		
+		
+def genWin(deck):
+	listS = list()
+	listT = list()
+	listW = list()
+	listE = list()
+	pong = 0;
+	for a in (deck):
+		if(a[1] == 's'):
+			listS.append(a)
+		elif(a[1] == 't'):
+			listT.append(a)
+		elif(a[1] == 'w'):
+			listW.append(a)
+		else:
+			listE.append(a)
+	# check all pairs
+	listPong = list()
 
-	if(player["PrevWin"] == "True" and player["HasDice"] == "False"):
-		player["Position"] = "dong"
-	elif (player["HasDice"] == "False"):
-			if(player["Win"] == "False"):
-				currPosition = listFong.index(player["Position"])
-				player["Position"] = (s).join(listFong[currPosition+1 : currPosition+2])
-			else:
-				currPosition = listWithDiceFong.index((player["Position"]))
-				#print("h")
-				print((s).join(listWithDiceFong[currPosition+1 : currPosition+2]))
-				player["Position"] = (s).join(listWithDiceFong[currPosition+1 : currPosition+2])
-				
+	dic = {}
+	dicT = {}
+	dicW = {}
+	dicE = {}
+	counter = 1
+	eyes = 0
+	#print(SO_ZI)
+	for so_Zi in listS:
+		if( not (so_Zi in dic)): # add to dic
+			dic[so_Zi] = 1
+		else:
+			dic[so_Zi] = dic[so_Zi]+1
+	for key,val in dic.items():
+		if (val ==3): # if it occurs 3 times
+			pong = pong+1
+			print(key)
+			print(dic)
+		if (val ==2):
+			eyes = eyes+1
+	#print(TONG_ZI)
+	for tong_Zi in listT:
+		if(not (tong_Zi in dicT)):
+			dicT[tong_Zi] = 1
+		else:
+			dicT[tong_Zi] = dicT[tong_Zi]+1
+	for key2,val2 in dicT.items():
+		if(val2 ==3):
+			print(key2)
+			print(dicT)
+			pong = pong+1
+		if (val2 ==2):
+			eyes = eyes+1
+	#print(WAN_ZI)
+	for wan_Zi in listW:
+		if(not (wan_Zi in dicW)):
+			dicW[wan_Zi] = 1
+		else:
+			dicW[wan_Zi] = dicW[wan_Zi]+1
+	for key3,val3 in dicW.items():
+		if(val3 ==3):
+			print(key3)
+			print(dicW)
+			pong = pong+1
+		if (val3 ==2):
+			eyes = eyes+1
+	#print(else)
+	for others in listE:
+		if(not (others in dicE)):
+			dicE[others] = 1
+		else:
+			dicE[others] = dicE[others]+1
+	for key4,val4 in dicE.items():
+		if(val4 ==3):
+			print(key4)
+			print(dicE)
+			pong = pong+1
+		if (val4 ==2):
+			eyes = eyes+1
+
+	
+	if(pong == 4 && eyes ==2): ## curr have 13 need 14
+		print("WIN by pairs")
+
 
 
 
@@ -180,25 +264,11 @@ def main():
 
     # change counter later
     currFong = 1
-  
-
+ 
     startGame(player1,player2,player3,player4)
-    print(player1)
-    player1["Win"] = "True"
-    player1["HasDice"] = "True"
-    player1["PrevWin"] = "True"
-    changePosition(player1,symTable)
-    print(player1)
-    player1["Win"] = "False"
-    player1["HasDice"] = "True"
-    player["PrevWin"] = "True"
-    changePosition(player1,symTable)
-    print(player1)
-    player1["Win"] = "False"
-    player1["HasDice"] = "False"
-    player1["PrevWin"] = "False"
-    changePosition(player1,symTable)
-    print(player1)
+    changePosition(player2,symTable)
+    genWin(sortedDeck1)
+    
 
 if __name__ == "__main__":
     main()        
