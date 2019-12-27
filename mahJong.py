@@ -222,10 +222,98 @@ def genWin(deck):
 			eyes = eyes+1
 
 	
-	if(pong == 4 and eyes ==2): ## curr have 13 need 14
+	if(pong == 4 and eyes ==2): 
 		return True
 
 	return False
+
+
+
+def checkConsecutive(deck):
+	listS = list()
+	listT = list()
+	listW = list()
+	listE = list()
+	pong = 0;
+	for a in (deck):
+		if(a[1] == 's'):
+			listS.append(a)
+		elif(a[1] == 't'):
+			listT.append(a)
+		elif(a[1] == 'w'):
+			listW.append(a)
+		else:
+			listE.append(a)
+
+	listS.sort()
+	b = 0
+	dicA = list()
+	alreadyAdded = list()
+	while b < len(listS):
+		if (listS[b] in dicA):
+			alreadyAdded.append(listS[b])
+		else:
+			dicA.append(listS[b])
+
+		b = b + 1
+	print(listS)
+	print(alreadyAdded)
+	print(dicA)
+
+	check = 0
+	listOfThree = list()
+	print(listOfThree)
+	while check < len(dicA):
+		if(check == len(dicA)-1):
+			print("last")
+			return
+		if(check == len(dicA)-2):
+			print("2ndToLast")
+			return
+		pieceA = (dicA[check])
+		checkA = int(pieceA[0])
+		pieceB = (dicA[check+1])
+		checkB = int(pieceB[0])
+		pieceC = dicA[check+2]
+		checkC = int(pieceC[0])
+		if(((checkA + 1) == checkB) and ((checkA+2) ==checkC)):
+			listOfThree.append(pieceA)
+			listOfThree.append(pieceB)
+			listOfThree.append(pieceC)
+		print(listOfThree, "i")
+		check+=1
+
+	"""
+	dicA = {}
+	dicA = listS
+	valHolder = 0
+	a_pointer = 0
+	b_pointer = 0
+	valHolder2 = 0
+	print(listS)
+	"""
+	"""
+
+	if(len(listS) > 2):
+		while(not( b_pointer == len(listS)-3) ):
+
+			# first case
+			# given 5 check if it has 6 7
+			use = listS[b_pointer]
+			valHolder = int(use[0])
+
+			use2 = listS[b_pointer+1]
+			valHolder2 = int(use2[0])
+
+			use3 = listS[b_pointer+2]
+			valHolder3 = int(use3[0])
+			print(valHolder,valHolder2,valHolder3)
+			b_pointer+=1
+			if((valHolder + 1 ) == (valHolder2) and ((valHolder + 2) == valHolder3 ) ):
+				print("in here")
+				print(valHolder,valHolder2,valHolder3)
+	"""	
+	#print(listS)
 
 
 
@@ -286,12 +374,12 @@ def main():
  
     #startGame(player1,player2,player3,player4)
     #changePosition(player2,symTable)
-    print(sortedDeck1)
-    addCard(sortedDeck1,symTable)
-    print(sortedDeck1)
-    removeCard(sortedDeck1,symTable)
+    #print(sortedDeck1)
+    #addCard(sortedDeck1,symTable)
+    #print(sortedDeck1)
+    #removeCard(sortedDeck1,symTable)
+    checkConsecutive(sortedDeck1)
 
-    
     
    # print(addedCardToDeck1)
 
